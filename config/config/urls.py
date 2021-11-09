@@ -15,15 +15,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include#,re_path
-#from .views import rooms
-#from room.views import room_create_view
+from room.views import room_create_view
 
 
 urlpatterns = [
      path('', include('reservation.urls')),
     path('admin/', admin.site.urls),
-    # path('rooms/create/', room_create_view, name='room-create'),
-    # path('rooms/', include('room.urls')),
+    path('rooms/create/', room_create_view, name='room-create'),
+    path('rooms/', include('room.urls')),
     path('reservations/', include('reservation.urls')),
     path('api/', include('API.urls')),
     path('user/', include('User.urls')),

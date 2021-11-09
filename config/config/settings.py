@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'API',
     'User',
     'reservation',
+    'room',
 
     'rest_framework',
     'rest_framework.authtoken',
