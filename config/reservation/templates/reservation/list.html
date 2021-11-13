@@ -3,9 +3,17 @@
 {% block content %}
     <div class='row my-5 d-flex justify-content-between'>
         <form method='GET' action='.'>
+            <select name='room-filter' class='filter-slct'>
+            {% for element in room_list %}
+            <option name='room-filter' value={{ element.room_number }}>{{ element.room_number }}
+            {% endfor %}
+            </select>
+            <input type='submit' class='btn btn-primary' value='Filter'>
+        </form>
+        <form method='GET' action='.'>
             <select name='user-filter' class='filter-slct'>
             {% for element in user_list %}
-            <option name='user-filter' value={{ user.id }}>{{ element.username }}
+            <option name='user-filter' value={{ element.username }}>{{ element.username }}
             {% endfor %}
             </select>
             <input type='submit' class='btn btn-primary' value='Filter'>

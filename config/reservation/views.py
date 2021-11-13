@@ -5,7 +5,9 @@ from django.forms import forms
 from django.shortcuts import render, get_object_or_404,redirect
 from django.template import response
 from rest_framework.response import Response
-from API.models import Reservation, User
+from API.models import Reservation, User, MeetingRoom
+from django.contrib.auth import get_user_model
+
 from django.contrib.auth.decorators import login_required
 import requests
 
@@ -14,17 +16,22 @@ from reservation.forms import CreateReservationModelForm
 
 
 def reservation_list_view(request):
-    if request.POST.get('user-filter'):
-        user_filter = request.POST.get('user-filter')
-        queryset = Reservation.objects.filter(reservation_user=user_filter)
+    if request.GET.get('room-filter'):
+        room_number = MeetingRoom.objects.get(room_number=request.GET.get('room-filter'))
+        queryset = Reservation.objects.filter(room_number=room_number)
+    elif request.GET.get('user-filter'):
+        username = get_user_model().objects.get(username = request.GET.get('user-filter'))
+        queryset = Reservation.objects.filter(reservation_user=username)
     else:
         queryset = Reservation.objects.all()
-    user_list = User.objects.all()
+    room_list = MeetingRoom.objects.all()
+    user_list = get_user_model().objects.all()
     title = "Reservation list"
     template_name = 'reservation/list.html'
     context = {
         'title': title,
         'object_list': queryset,
+        'room_list': room_list,
         'user_list': user_list
     }
     return render(request, template_name, context)
